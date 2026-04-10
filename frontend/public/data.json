@@ -1,0 +1,25 @@
+{
+  "products": [
+    {
+      "id": 1,
+      "name": "OS Installation",
+      "price": "250.00",
+      "image": "https://img.icons8.com/fluency/96/windows-11.png",
+      "category": "Software"
+    },
+    {
+      "id": 2,
+      "name": "Data Recovery",
+      "price": "400.00",
+      "image": "https://img.icons8.com/fluency/96/hard-drive.png",
+      "category": "Storage"
+    },
+    {
+      "id": 3,
+      "name": "System Optimization",
+      "price": "150.00",
+      "image": "https://img.icons8.com/fluency/96/speed.png",
+      "category": "Software"
+    }
+  ]
+}

@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Business Hub | Premium Digital Solutions & Tech Services</title>
+    
+    <!-- Meta Tags -->
+    <meta name="description" content="Premium Digital Solutions - Expert OS installation, data recovery, and system optimization. High-quality professional services and enterprise-grade software tools.">
+    <meta name="keywords" content="Tech Solutions, Data Recovery, Software Installation, Business Hub, Professional Services">
+    <meta property="og:title" content="Business Hub | Premium Digital Solutions">
+    <meta property="og:description" content="Experience the future of professional service delivery. Trusted by over 500+ clients.">
+    <meta property="og:type" content="website">
+    <meta name="twitter:card" content="summary_large_image">
+
+    <!-- Fonts & Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        :root {
+            --primary: #6366f1;
+            --bg: #0f172a;
+            --card-bg: #1e293b;
+            --text: #f8fafc;
+            --accent: #f43f5e;
+            --whatsapp: #25d366;
+            --glass-border: rgba(255, 255, 255, 0.1);
+            --nav-bg: rgba(15, 23, 42, 0.8);
+        }
+        /* News Ticker & Navigation Styles */
+        .news-navbar {
+            width: 100%;
+            background: var(--primary);
+            color: white;
+            padding: 10px 0;
+            font-size: 0.85rem;
+            font-weight: 600;
+            overflow: hidden;
+            white-space: nowrap;
+            position: sticky;
+            top: 0;
+            z-index: 1100;
+            display: flex;
+            align-items: center;
+        }
+        .news-label {
+            background: var(--accent);
+            padding: 0 20px;
+            margin-right: 20px;
+            flex-shrink: 0;
+            text-transform: uppercase;
+            font-weight: 800;
+        }
+        .ticker-wrap {
+            display: inline-block;
+            animation: ticker-scroll 40s linear infinite;
+        }
+        @keyframes ticker-scroll {
+            0% { transform: translateX(100%); }
+            100% { transform: translateX(-100%); }
+        }
+        .main-navbar {
+            width: 100%;
+            padding: 1rem 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: var(--nav-bg);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--glass-border);
+            position: sticky;
+            top: 40px; 
+            z-index: 1000;
+        }
+        .nav-links a {
+            color: var(--text);
+            text-decoration: none;
+            margin-left: 2rem;
+            font-size: 0.95rem;
+            font-weight: 500;
+            transition: color 0.3s;
+            opacity: 0.8;
+        }
+        .nav-links a:hover { 
+            color: var(--primary); 
+            opacity: 1;
+        }
+        body {
+            background-color: var(--bg);
+            color: var(--text);
+            font-family: 'Inter', system-ui, -apple-system, sans-serif;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
+        header {
+            padding: 4rem 2rem;
+            text-align: center;
+            background: linear-gradient(to bottom, #1e1b4b, var(--bg));
+            width: 100%;
+        }
+        .container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2.5rem;
+            width: 90%;
+            max-width: 1100px;
+            padding: 3rem 0;
+        }
+        .product-card {
+            background: linear-gradient(145deg, var(--card-bg), #161e2d);
+            padding: 2rem;
+            border-radius: 1.5rem;
+            text-align: center;
+            border: 1px solid var(--glass-border);
+            /* Unique world-class transition curve */
+            transition: transform 0.4s cubic-bezier(0.68, -0.6, 0.32, 1.6), box-shadow 0.3s ease;
+            cursor: pointer;
+            user-select: none;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .product-card:hover {
+            box-shadow: 0 20px 40px -10px rgba(0,0,0,0.5);
+            border-color: var(--primary);
+        }
+        /* The requested Click Animation: Squish & Rotate */
+        .product-card:active {
+            transform: scale(0.92) translateY(8px) rotate(1.5deg);
+            filter: brightness(0.8);
+        }
+        .product-card img {
+            width: 96px;
+            height: 96px;
+            margin-bottom: 1.5rem;
+        }
+        .price {
+            color: var(--accent);
+            font-weight: 800;
+            font-size: 1.4rem;
+            margin: 10px 0;
+        }
+        .category {
+            text-transform: uppercase;
+            font-size: 0.75rem;
+            letter-spacing: 0.1em;
+            color: #94a3b8;
+        }
+        .buy-btn {
+            margin-top: 1.5rem;
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 0.8rem 1.5rem;
+            border-radius: 0.75rem;
+            font-weight: 600;
+            width: 100%;
+            cursor: pointer;
+            transition: filter 0.2s;
+        }
+        .buy-btn:hover { filter: brightness(1.2); }
+
+        /* About Section Styles */
+        .about-section {
+            width: 90%;
+            max-width: 1100px;
+            margin-top: 4rem;
+            scroll-margin-top: 120px;
+        }
+        .about-card {
+            background: linear-gradient(145deg, var(--card-bg), #161e2d);
+            padding: 3rem;
+            border-radius: 1.5rem;
+            border: 1px solid var(--glass-border);
+        }
+        .about-grid {
+            display: grid;
+            grid-template-columns: 1fr 1.5fr;
+            gap: 2.5rem;
+            margin-top: 1.5rem;
+        }
+        .about-info p {
+            margin: 1.2rem 0;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 1rem;
+        }
+        .about-info i { color: var(--primary); width: 20px; text-align: center; }
+        .about-bio { color: #94a3b8; line-height: 1.7; font-size: 1.05rem; }
+        @media (max-width: 768px) { .about-grid { grid-template-columns: 1fr; } }
+
+        /* Social & Contact Elements */
+        .social-container {
+            display: flex;
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+        .social-icon {
+            color: #94a3b8;
+            font-size: 1.5rem;
+            transition: all 0.3s ease;
+            text-decoration: none;
+        }
+        .social-icon:hover {
+            color: var(--primary);
+            transform: translateY(-3px);
+        }
+        .social-icon.fb:hover { color: #1877f2; }
+        .social-icon.tg:hover { color: #0088cc; }
+        .social-icon.ig:hover { color: #e4405f; }
+
+        /* Floating WhatsApp */
+        .whatsapp-float {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background-color: var(--whatsapp);
+            color: white;
+            width: 60px;
+            height: 60px;
+            border-radius: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 30px;
+            box-shadow: 0 10px 25px rgba(37, 211, 102, 0.3);
+            z-index: 2000;
+            transition: all 0.3s ease;
+            text-decoration: none;
+        }
+        .whatsapp-float:hover {
+            transform: scale(1.1) rotate(5deg);
+            box-shadow: 0 15px 30px rgba(37, 211, 102, 0.5);
+        }
+
+        footer {
+            width: 100%;
+            padding: 4rem 5%;
+            background: #0a0f1d;
+            border-top: 1px solid var(--glass-border);
+            margin-top: 4rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .admin-link {
+            color: #475569;
+            text-decoration: none;
+            font-size: 0.8rem;
+            margin-top: 2rem;
+            transition: color 0.3s;
+        }
+        .admin-link:hover { color: var(--text); }
+    </style>
+</head>
+<body>
+    <div class="news-navbar">
+        <div class="news-label">Latest Products</div>
+        <div class="ticker-wrap" id="news-ticker">
+            Loading latest professional service updates...
+        </div>
+    </div>
+
+    <nav class="main-navbar">
+        <div style="font-weight: 900; font-size: 1.2rem; letter-spacing: -1px;">BUSINESS<span style="color: var(--primary)">HUB</span></div>
+        <div class="nav-links">
+            <a href="/">Home</a>
+            <a href="#about">About</a>
+            <a href="/admin">Customer Admin</a>
+        </div>
+    </nav>
+
+    <header>
+        <div class="hero-badge">TRUSTED BY 500+ CLIENTS</div>
+        <h1 style="font-size: 4rem; margin: 0; font-weight: 800; letter-spacing: -2px; line-height: 1;">Premium Digital <span style="color: var(--primary)">Solutions</span></h1>
+        <p style="color: #94a3b8; font-size: 1.25rem; max-width: 600px; margin: 1.5rem auto;">Elevate your workflow with our world-class professional services and enterprise-grade software tools.</p>
+    </header>
+    
+    <div class="container" id="product-list">
+        <!-- Products will be injected here automatically -->
+    </div>
+
+    <!-- About Section -->
+    <section id="about" class="about-section">
+        <div class="about-card">
+            <h2 style="font-size: 2rem; font-weight: 800; letter-spacing: -1px; margin-bottom: 0.5rem;">About <span style="color: var(--primary)">The Specialist</span></h2>
+            <div class="about-grid">
+                <div class="about-info">
+                    <p><i class="fas fa-user-tie"></i> <strong>Occupation:</strong> IT Solutions Expert</p>
+                    <p><i class="fas fa-map-marker-alt"></i> <strong>Location:</strong> Lusaka, Zambia</p>
+                    <p><i class="fas fa-envelope"></i> <strong>Contact:</strong> business@gmail.com</p>
+                    <p><i class="fas fa-clock"></i> <strong>Availability:</strong> Mon - Sat (08:00 - 18:00)</p>
+                </div>
+                <div class="about-bio">
+                    <p>I am a dedicated Tech Specialist with a passion for delivering premium digital solutions. Whether it's enterprise-grade system optimization, complex OS installations, or recovering critical data, I bring world-class expertise to every client.</p>
+                    <p style="margin-top: 1rem;">My goal is to help businesses and individuals leverage technology effectively, ensuring your digital tools work seamlessly to support your workflow.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- WhatsApp Floating Button -->
+    <a href="https://wa.me/1234567890" class="whatsapp-float" target="_blank" title="Chat with me">
+        <i class="fab fa-whatsapp"></i>
+    </a>
+
+    <footer>
+        <div style="font-weight: 900; font-size: 1.5rem; letter-spacing: -1px; margin-bottom: 1rem;">BUSINESS<span style="color: var(--primary)">HUB</span></div>
+        <div class="social-container">
+            <a href="#" class="social-icon fb"><i class="fab fa-facebook"></i></a>
+            <a href="#" class="social-icon tg"><i class="fab fa-telegram"></i></a>
+            <a href="#" class="social-icon ig"><i class="fab fa-instagram"></i></a>
+        </div>
+        <p style="color: #64748b; font-size: 0.9rem;">© 2024 Business Hub Solutions. All rights reserved.</p>
+        <a href="/admin" class="admin-link">Internal Admin Portal</a>
+    </footer>
+
+    <script>
+        async function loadUI() {
+            try {
+                const res = await fetch('/api/products');
+                const data = await res.json();
+                const list = document.getElementById('product-list');
+                const ticker = document.getElementById('news-ticker');
+                
+                // Update News Ticker with latest products
+                if (data.products && data.products.length > 0) {
+                    ticker.innerHTML = [...data.products].reverse().map(p => `✨ JUST ADDED: ${p.name} in ${p.category} — Starting at $${p.price}`).join(' &nbsp;&nbsp;&nbsp;&nbsp; • &nbsp;&nbsp;&nbsp;&nbsp; ');
+                }
+
+                data.products.forEach(p => {
+                    const card = document.createElement('div');
+                    card.className = 'product-card';
+                    card.innerHTML = `
+                        <img src="${p.image}" alt="${p.name}">
+                        <div class="category">${p.category}</div>
+                        <h3 style="margin: 0.5rem 0;">${p.name}</h3>
+                        <div class="price">$${p.price}</div>
+                        <button class="buy-btn">Order Now</button>
+                    `;
+                    list.appendChild(card);
+                });
+            } catch (err) {
+                console.error("Could not load products from API:", err);
+            }
+        }
+        loadUI();
+    </script>
+</body>
+</html>

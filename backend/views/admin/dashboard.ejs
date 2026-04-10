@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title><%= websiteName %> | Admin Dashboard</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    /* Custom styles to match the dark theme and add specific interactions */
+    :root {
+        --primary: #6366f1; /* Indigo 500 */
+        --bg: #0f172a; /* Slate 900 */
+        --card-bg: #1e293b; /* Slate 800 */
+        --text: #f8fafc; /* Slate 50 */
+        --accent: #10b981; /* Emerald 500 */
+        --error: #ef4444; /* Red 500 */
+    }
+    body {
+        background-color: var(--bg);
+        color: var(--text);
+        font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    }
+    .btn-primary {
+        background-color: var(--primary);
+        color: var(--text);
+        padding: 0.5rem 1rem;
+        border-radius: 0.5rem;
+        transition: background-color 0.2s ease-in-out;
+    }
+    .btn-primary:hover {
+        background-color: #4f46e5; /* Indigo 600 */
+    }
+    .btn-danger {
+        background-color: var(--error);
+        color: var(--text);
+        padding: 0.5rem 1rem;
+        border-radius: 0.5rem;
+        transition: background-color 0.2s ease-in-out;
+    }
+    .btn-danger:hover {
+        background-color: #dc2626; /* Red 600 */
+    }
+    .input-field {
+        background-color: #0f172a; /* Slate 900 */
+        border: 1px solid #334155; /* Slate 700 */
+        color: var(--text);
+        padding: 0.75rem 1rem;
+        border-radius: 0.5rem;
+        width: 100%;
+        box-sizing: border-box;
+    }
+    .input-field:focus {
+        outline: none;
+        border-color: var(--primary);
+        box-shadow: 0 0 0 2px rgba(99, 102, 241, 0.2);
+    }
+    .modal {
+        display: none; /* Hidden by default */
+        position: fixed; /* Stay in place */
+        z-index: 1000; /* Sit on top */
+        left: 0;
+        top: 0;
+        width: 100%; /* Full width */
+        height: 100%; /* Full height */
+        overflow: auto; /* Enable scroll if needed */
+        background-color: rgba(0,0,0,0.6); /* Black w/ opacity */
+        justify-content: center;
+        align-items: center;
+    }
+    .modal-content {
+        background-color: var(--card-bg);
+        margin: auto;
+        padding: 2rem;
+        border-radius: 1rem;
+        box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+        width: 90%;
+        max-width: 500px;
+        position: relative;
+    }
+    .close-button {
+        color: #aaa;
+        position: absolute;
+        top: 1rem;
+        right: 1rem;
+        font-size: 1.5rem;
+        font-weight: bold;
+        cursor: pointer;
+    }
+    .close-button:hover,
+    .close-button:focus {
+        color: var(--text);
+        text-decoration: none;
+        cursor: pointer;
+    }
+    .message-box {
+        padding: 0.75rem;
+        border-radius: 0.5rem;
+        margin-bottom: 1rem;
+        display: none;
+    }
+    .message-box.success {
+        background-color: rgba(16, 185, 129, 0.1); /* Emerald 500 with opacity */
+        border: 1px solid var(--accent);
+        color: var(--accent);
+    }
+    .message-box.error {
+        background-color: rgba(239, 68, 68, 0.1); /* Red 500 with opacity */
+        border: 1px solid var(--error);
+        color: var(--error);
+    }
+  </style>
+</head>
+<body class="min-h-screen">
+  <!-- Navbar -->
+  <nav class="bg-card-bg shadow-sm border-b border-slate-700">
+    <div class="max-w-6xl mx-auto px-6 py-4">
+      <div class="flex justify-between items-center">
+        <h1 class="text-2xl font-bold text-text"><%= websiteName %> Admin Dashboard</h1>
+        <div class="flex space-x-4">
+          <a href="/admin/logout" class="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600 transition">Logout</a>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <div class="max-w-6xl mx-auto px-6 py-8">
+    <div class="bg-card-bg rounded-xl shadow-sm p-8">
+      <h2 class="text-3xl font-extrabold mb-8 text-center text-primary">Product Management</h2>
+
+      <!-- Message Box for success/error -->
+      <div id="messageBox" class="message-box"></div>
+
+      <!-- Add Product Form -->
+      <div class="mb-10 p-6 bg-bg rounded-lg border border-slate-700">
+        <h3 class="text-xl font-semibold mb-4 text-text">Add New Product</h3>
+        <form id="addProductForm" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div class="form-group">
+            <label for="newProductName" class="block text-sm font-medium text-slate-400 mb-1">Product Name</label>
+            <input type="text" id="newProductName" name="name" class="input-field" required>
+          </div>
+          <div class="form-group">
+            <label for="newProductCategory" class="block text-sm font-medium text-slate-400 mb-1">Category</label>
+            <input type="text" id="newProductCategory" name="category" class="input-field" required>
+          </div>
+          <div class="form-group">
+            <label for="newProductPrice" class="block text-sm font-medium text-slate-400 mb-1">Price</label>
+            <input type="number" step="0.01" id="newProductPrice" name="price" class="input-field" required>
+          </div>
+          <div class="form-group">
+            <label for="newProductImage" class="block text-sm font-medium text-slate-400 mb-1">Product Picture (Select File)</label>
+            <input type="file" id="newProductImage" name="image" class="input-field" accept="image/*" required>
+          </div>
+          <div class="form-group md:col-span-2">
+            <label for="newProductDescription" class="block text-sm font-medium text-slate-400 mb-1">Product Description</label>
+            <textarea id="newProductDescription" name="description" class="input-field" rows="3" required></textarea>
+          </div>
+          <div class="md:col-span-2 text-right">
+            <button type="submit" class="btn-primary">Add Product</button>
+          </div>
+        </form>
+      </div>
+
+      <!-- Products Listing Table -->
+      <h3 class="text-xl font-semibold mb-4 text-text">Existing Products</h3>
+      <div class="overflow-x-auto">
+        <table class="min-w-full bg-bg rounded-lg border border-slate-700">
+          <thead>
+            <tr class="text-left text-slate-400 uppercase text-sm">
+              <th class="py-3 px-4 border-b border-slate-700">ID</th>
+              <th class="py-3 px-4 border-b border-slate-700">Image</th>
+              <th class="py-3 px-4 border-b border-slate-700">Name</th>
+              <th class="py-3 px-4 border-b border-slate-700">Category</th>
+              <th class="py-3 px-4 border-b border-slate-700">Price</th>
+              <th class="py-3 px-4 border-b border-slate-700">Actions</th>
+            </tr>
+          </thead>
+          <tbody id="productsTableBody">
+            <!-- Products will be loaded here by JavaScript -->
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Pagination Controls -->
+      <div class="flex justify-center items-center mt-8 space-x-2">
+        <button id="prevPageBtn" class="btn-primary" disabled>Previous</button>
+        <span id="pageInfo" class="text-slate-300">Page 1 of 1</span>
+        <button id="nextPageBtn" class="btn-primary" disabled>Next</button>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Edit Product Modal -->
+  <div id="editProductModal" class="modal">
+    <div class="modal-content">
+      <span class="close-button" onclick="closeEditModal()">&times;</span>
+      <h3 class="text-xl font-semibold mb-4 text-text">Edit Product</h3>
+      <form id="editProductForm">
+        <input type="hidden" id="editProductId">
+        <div class="form-group mb-4">
+          <label for="editProductName" class="block text-sm font-medium text-slate-400 mb-1">Product Name</label>
+          <input type="text" id="editProductName" name="name" class="input-field" required>
+        </div>
+        <div class="form-group mb-4">
+          <label for="editProductCategory" class="block text-sm font-medium text-slate-400 mb-1">Category</label>
+          <input type="text" id="editProductCategory" name="category" class="input-field" required>
+        </div>
+        <div class="form-group mb-4">
+          <label for="editProductPrice" class="block text-sm font-medium text-slate-400 mb-1">Price</label>
+          <input type="number" step="0.01" id="editProductPrice" name="price" class="input-field" required>
+        </div>
+        <div class="form-group mb-4">
+          <label for="editProductImage" class="block text-sm font-medium text-slate-400 mb-1">Product Picture (Select New File)</label>
+          <input type="file" id="editProductImage" name="image" class="input-field" accept="image/*">
+        </div>
+        <div class="form-group mb-4">
+          <label for="editProductDescription" class="block text-sm font-medium text-slate-400 mb-1">Description</label>
+          <textarea id="editProductDescription" name="description" class="input-field" rows="3" required></textarea>
+        </div>
+        <div class="text-right">
+          <button type="submit" class="btn-primary">Save Changes</button>
+          <button type="button" class="btn-danger ml-2" onclick="closeEditModal()">Cancel</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    const productsTableBody = document.getElementById('productsTableBody');
+    const addProductForm = document.getElementById('addProductForm');
+    const editProductModal = document.getElementById('editProductModal');
+    const editProductForm = document.getElementById('editProductForm');
+    const messageBox = document.getElementById('messageBox');
+    const prevPageBtn = document.getElementById('prevPageBtn');
+    const nextPageBtn = document.getElementById('nextPageBtn');
+    const pageInfo = document.getElementById('pageInfo');
+
+    let currentPage = 1;
+    const productsPerPage = 5; // You can adjust this value
+    let totalPages = 1;
+
+    // Function to display messages
+    function showMessage(message, type = 'success') {
+        messageBox.textContent = message;
+        messageBox.classList.remove('success', 'error'); // Clear previous classes
+        messageBox.classList.add(type);
+        messageBox.className = `message-box ${type}`;
+        messageBox.style.display = 'block';
+        setTimeout(() => {
+            messageBox.style.display = 'none';
+        }, 5000); // Hide after 5 seconds
+    }
+
+    // Function to fetch and display products
+    async function fetchProducts() {
+        try {
+            const response = await fetch(`/api/products?page=${currentPage}&limit=${productsPerPage}`);
+            const data = await response.json();
+            productsTableBody.innerHTML = ''; // Clear existing rows
+
+            data.products.forEach((product, index) => {
+                const row = productsTableBody.insertRow();
+                row.className = 'border-b border-slate-800 last:border-b-0';
+                row.innerHTML = `
+                    <td class="py-3 px-4 text-slate-300">${product.id}</td>
+                    <td class="py-3 px-4">
+                        <img src="${product.image}" alt="${product.name}" class="w-12 h-12 object-contain rounded-md">
+                    </td>
+                    <td class="py-3 px-4 font-medium text-text">${product.name}</td>
+                    <td class="py-3 px-4 text-slate-400">${product.category}</td>
+                    <td class="py-3 px-4 text-accent font-semibold">K ${parseFloat(product.price).toFixed(2)}</td>
+                    <td class="py-3 px-4">
+                        <button class="btn-primary text-sm mr-2" onclick="openEditModal(${product.id}, \`${product.name}\`, \`${product.category}\`, ${product.price}, \`${product.image}\`, \`${product.description || ''}\`)">Edit</button>
+                        <button class="btn-danger text-sm" onclick="deleteProduct(${product.id})">Delete</button>
+                    </td>
+                `;
+            });
+
+            // Update pagination controls
+            totalPages = data.totalPages;
+            pageInfo.textContent = `Page ${currentPage} of ${totalPages}`;
+            prevPageBtn.disabled = currentPage === 1;
+            nextPageBtn.disabled = currentPage === totalPages;
+
+            // Adjust current page if it's now empty after deletion and not the first page
+            if (data.products.length === 0 && currentPage > 1) {
+                currentPage--;
+                fetchProducts();
+            }
+        } catch (error) {
+            console.error('Error fetching products:', error);
+            showMessage('Failed to load products.', 'error');
+        }
+    }
+
+    // Add Product
+    addProductForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const formData = new FormData(addProductForm);
+        formData.set('price', parseFloat(formData.get('price')).toFixed(2)); // Ensure price is formatted
+
+        try {
+            const response = await fetch('/api/products', {
+                method: 'POST',
+                body: formData
+            });
+            const data = await response.json();
+            if (data.success) {
+                showMessage('Product added successfully!', 'success');
+                addProductForm.reset(); // Clear form
+                fetchProducts(); // Refresh list (stays on current page)
+            } else {
+                showMessage('Failed to add product.', 'error');
+            }
+        } catch (error) {
+            console.error('Error adding product:', error);
+            showMessage('Error adding product. Please try again.', 'error');
+        }
+    });
+
+    // Open Edit Modal
+    function openEditModal(id, name, category, price, image, description) { 
+        document.getElementById('editProductId').value = id;
+        document.getElementById('editProductName').value = name;
+        document.getElementById('editProductCategory').value = category;
+        document.getElementById('editProductPrice').value = price;
+        // For edit, we don't pre-fill file input for security reasons. User must select new file.
+        document.getElementById('editProductDescription').value = description;
+        editProductModal.style.display = 'flex'; // Use flex to center
+    }
+
+    // Close Edit Modal
+    function closeEditModal() {
+        editProductModal.style.display = 'none';
+    }
+
+    // Edit Product
+    editProductForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const id = document.getElementById('editProductId').value;
+        const formData = new FormData(editProductForm);
+        formData.set('price', parseFloat(formData.get('price')).toFixed(2)); // Ensure price is formatted
+
+        try {
+            const response = await fetch(`/api/products/${id}`, {
+                method: 'PUT',
+                body: formData
+            });
+            const data = await response.json();
+            if (data.success) {
+                showMessage('Product updated successfully!', 'success');
+                closeEditModal();
+                fetchProducts(); // Refresh list (stays on current page)
+            } else {
+                showMessage('Failed to update product.', 'error');
+            }
+        } catch (error) {
+            console.error('Error updating product:', error);
+            showMessage('Error updating product. Please try again.', 'error');
+        }
+    });
+
+    // Delete Product
+    async function deleteProduct(id) {
+        if (!confirm('Are you sure you want to delete this product?')) {
+            return;
+        }
+        try {
+            const response = await fetch(`/api/products/${id}`, {
+                method: 'DELETE'
+            });
+            const data = await response.json();
+            if (data.success) {
+                showMessage('Product deleted successfully!', 'success');
+                // After deleting, re-fetch products for the current page.
+                // The fetchProducts function now handles adjusting currentPage if it becomes empty.
+                fetchProducts();
+            } else {
+                showMessage('Failed to delete product.', 'error');
+            }
+        } catch (error) {
+            console.error('Error deleting product:', error);
+            showMessage('Error deleting product. Please try again.', 'error');
+        }
+    }
+
+    // Pagination event listeners
+    prevPageBtn.addEventListener('click', () => { if (currentPage > 1) { currentPage--; fetchProducts(); } });
+    nextPageBtn.addEventListener('click', () => { if (currentPage < totalPages) { currentPage++; fetchProducts(); } });
+
+    // Initial load
+    document.addEventListener('DOMContentLoaded', fetchProducts);
+  </script>
+</body>
+</html>
