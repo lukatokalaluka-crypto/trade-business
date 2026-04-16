@@ -62,6 +62,14 @@ const isAuthenticated = (req, res, next) => {
   res.redirect('/admin');
 };
 
+// API Admin middleware - returns JSON instead of redirecting
+const isAdminApi = (req, res, next) => {
+  if (req.session.isAdmin) {
+    return next();
+  }
+  res.status(401).json({ success: false, message: 'Unauthorized access' });
+};
+
 // Admin Routes
 app.get('/admin', (req, res) => {
   if (req.session.isAdmin) {
@@ -110,6 +118,11 @@ app.get('/admin/logout', (req, res) => {
   res.redirect('/admin');
 });
 
+app.get('/api/logout', (req, res) => {
+  req.session.destroy();
+  res.json({ success: true });
+});
+
 // API Routes
 app.get('/api/products', async (req, res) => {
   try {
@@ -136,7 +149,7 @@ app.get('/api/products', async (req, res) => {
   }
 });
 
-app.post('/api/products', async (req, res) => {
+app.post('/api/products', isAdminApi, async (req, res) => {
   try {
     const { name, price, image, category, description } = req.body;
     const result = await pool.query(
@@ -149,7 +162,7 @@ app.post('/api/products', async (req, res) => {
   }
 });
 
-app.put('/api/products/:id', async (req, res) => {
+app.put('/api/products/:id', isAdminApi, async (req, res) => {
   try {
     const id = parseInt(req.params.id);
     const { name, price, image, category, description } = req.body;
@@ -168,7 +181,7 @@ app.put('/api/products/:id', async (req, res) => {
   }
 });
 
-app.delete('/api/products/:id', async (req, res) => {
+app.delete('/api/products/:id', isAdminApi, async (req, res) => {
   try {
     const id = parseInt(req.params.id);
     await pool.query('DELETE FROM products WHERE id = $1', [id]);
