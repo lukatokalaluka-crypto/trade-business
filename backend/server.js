@@ -12,8 +12,8 @@ app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// Serve static files from React build folder
-app.use(express.static(path.join(__dirname, '../frontend/dist'))); // Change to your build folder
+// Frontend now served separately via Vite/Vercel static
+// Removed: app.use(express.static(path.join(__dirname, '../frontend/dist')));
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
 
@@ -191,13 +191,16 @@ app.delete('/api/products/:id', isAdminApi, async (req, res) => {
   }
 });
 
-// Catch-all route to serve React's index.html for non-API requests
-app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, '../frontend/dist/index.html'));
+// Backend API/Admin only - Frontend served separately (Vite/Vercel static)
+
+app.use('*', (req, res) => {
+  res.status(404).json({ error: 'API/Admin endpoint not found. Use /api/* or /admin/*' });
 });
 
 app.listen(PORT, () => {
-  console.log(`Backend server running on http://localhost:${PORT}`);
-console.log(`Admin API: http://localhost:${PORT}/api/login (email: business@gmail.com, pass: 123456)`);
-  console.log(`API: http://localhost:${PORT}/api/products`);
+  console.log(`Backend API/Admin server running on http://localhost:${PORT}`);
+  console.log(`Admin Panel: http://localhost:${PORT}/admin`);
+  console.log(`Admin API: http://localhost:${PORT}/api/login (email: business@gmail.com, pass: 123456)`);
+  console.log(`Public API: http://localhost:${PORT}/api/products`);
+  console.log(`Frontend (separate): http://localhost:5173`);
 });

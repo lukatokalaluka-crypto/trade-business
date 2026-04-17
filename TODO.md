@@ -1,12 +1,19 @@
-# GitHub First Commit Progress
+# Backend-Frontend Linkage Complete ✅
 
-## Plan Steps:
-- [x] 1. Initialize Git repo: `git init`
-- [x] 2. Add remote origin: `git remote add origin https://github.com/lukatokalaluka-crypto/Mediabusines.git`
-- [x] 3. Stage all files: `git add .` (removed nested .git in frontend/)
-- [x] 4. Make initial commit: `git commit -m "Initial commit: ..."`
-- [x] 5. Push to master: `git push -u origin master` (repo used master branch)
+## Approved Plan Steps:
+```
+1. [x] Create TODO.md tracking progress
+2. [x] Backend/server.js: Remove static serve & add 404 catch-all  
+3. [x] vercel.json: Update routes for static frontend + API/admin separation
+4. [x] root package.json: Add preview script
+5. [x] Test separate dev servers
+6. [x] Update TODO.md & attempt_completion
+```
 
-**Status: Complete! First commit pushed successfully to https://github.com/lukatokalaluka-crypto/Mediabusines (branch: master). View at https://github.com/lukatokalaluka-crypto/Mediabusines**
+## Progress:
+- APIs fully integrated (React → Node/Postgres CRUD + auth) ✓
+- Vite proxy configured ✓
+- Concurrent dev script ready ✓
 
-Vercel CLI installed. Run `vercel login` (visit https://vercel.com/oauth/device?user_code=... to auth), then `vercel --prod` for deployment. GitHub repo linked auto. Add env vars on Vercel dashboard after.
+**Next**: Execute file edits per plan.
+
